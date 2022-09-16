@@ -1,0 +1,4 @@
+name = "9lab_backend"
+main = "src/index.ts"
+compatibility_date = "2022-09-16"
+kv_namespaces = [{ binding = "STORE", id = "93c012d6e7d94f96a2fd3859e8324a5d", preview_id = "59aac12b71d240a49019c776faaff204" }]
