@@ -86,24 +86,18 @@ export const mockVentas: IVenta[] = [
   },
 ];
 
-export const createLibros = async (request: Request, { STORE }: Env) => {
+export const resetData = async (request: Request, { STORE }: Env) => {
   try {
     await STORE.put("libros", JSON.stringify(mockLibros));
-    return wrapCorsHeader(json({ message: "Libros creados" }, { status: 200 }));
+    await STORE.put("ventas", JSON.stringify(mockVentas));
+    console.log("Data reseted");
+
+    return wrapCorsHeader(
+      json({ message: "Datos reseteados" }, { status: 200 })
+    );
   } catch {
     return wrapCorsHeader(
       json({ message: "Error al crear libros" }, { status: 500 })
-    );
-  }
-};
-
-export const createVentas = async (request: Request, { STORE }: Env) => {
-  try {
-    await STORE.put("ventas", JSON.stringify(mockVentas));
-    return wrapCorsHeader(json({ message: "Ventas creadas" }, { status: 200 }));
-  } catch {
-    return wrapCorsHeader(
-      json({ message: "Error al crear ventas" }, { status: 500 })
     );
   }
 };

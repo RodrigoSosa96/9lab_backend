@@ -78,3 +78,12 @@ export const deleteLibros = async (request: Request, { STORE }: Env) => {
   await STORE.put("libros", JSON.stringify(libros));
   return wrapCorsHeader(json(libro, { status: 200 }));
 };
+
+
+export const bulkDeleteLibros = async (request: Request, { STORE }: Env) => {
+  const arrayISBN = await request.json!();
+  const libros = (await STORE.get("libros", "json")) as ILibro[];
+  const newLibros = libros.filter((book) => !arrayISBN.includes(book.isbn));
+  await STORE.put("libros", JSON.stringify(newLibros));
+  return wrapCorsHeader(json(newLibros, { status: 200 }));
+}

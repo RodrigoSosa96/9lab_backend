@@ -1,6 +1,6 @@
 import { Env } from ".";
-import { deleteLibros, getLibros, postLibros, putLibros } from './handlers/libros';
-import { createLibros, createVentas } from './handlers/mockData';
+import { bulkDeleteLibros, deleteLibros, getLibros, postLibros, putLibros } from './handlers/libros';
+import { resetData } from './handlers/mockData';
 import { postVentas } from './handlers/ventas';
 import { handleCors } from './corsHelper'
 import { ThrowableRouter } from 'itty-router-extras';
@@ -12,10 +12,10 @@ router
   .get("/books/:isbn?", getLibros)
   .post("/books", postLibros)
   .put("/books/:isbn", putLibros)
+  .delete("/books", bulkDeleteLibros)
   .delete("/books/:isbn", deleteLibros)
   .post("/ventas", postVentas)
-  .get("/reset/ventas", createVentas)
-  .get("/reset/libros", createLibros)
+  .get("/reset", resetData)
   .get("*", () => new Response("Not found", { status: 404 }));
 
 

@@ -12,15 +12,14 @@ export interface IVenta {
 }
 export const postVentas = async (request: Request, { STORE }: Env) => {
   try {
-    const content = await request.json!();
-    const ventas = (await STORE.get("ventas", "json")) as IVenta[];
-
-    const nuevoVenta = content;
-
+    const nuevoVenta = await request.json!();
+    const ventas = ((await STORE.get("ventas", "json")) ?? []) as IVenta[];
     ventas.push(nuevoVenta);
+
     await STORE.put("ventas", JSON.stringify(ventas));
     return wrapCorsHeader(json(nuevoVenta, { status: 201 }));
   } catch (err) {
+    console.error(err);
     if (err instanceof TypeError) {
       return wrapCorsHeader(json({ error: "Invalid JSON" }, { status: 400 }));
     }
